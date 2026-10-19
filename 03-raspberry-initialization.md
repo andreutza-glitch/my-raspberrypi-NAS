@@ -41,3 +41,104 @@ Connection:
 
 ```bash
 ssh username@raspberry_ip_address
+```
+
+# Static IP Configuration
+
+To ensure reliable access to the Raspberry Pi NAS, a static IP address was configured for the Ethernet interface.
+
+A fixed IP address is important for a server environment because services such as OpenMediaVault, Docker containers and remote administration require a predictable network address.
+
+The static IP address was assigned outside the router DHCP pool to avoid possible IP conflicts with other devices on the network.
+
+The current network configuration was checked using:
+
+```bash
+ip addr
+```
+
+The routing table was verified using:
+
+```bash
+ip route
+```
+## Configuring Static IP Using NetworkManager
+
+The Raspberry Pi network configuration was managed using NetworkManager.
+
+Available network connections were identified using:
+
+```bash
+nmcli connection show
+```
+
+The Ethernet connection was selected and configured with a manual IPv4 address:
+
+```bash
+sudo nmcli connection modify <connection_name> \
+ipv4.method manual \
+ipv4.addresses <static_ip_address>/<subnet_mask> \
+ipv4.gateway <gateway_address> \
+ipv4.dns <dns_server>
+```
+
+The configuration parameters are:
+
+- `ipv4.method manual` - enables static IP configuration;
+- `ipv4.addresses` - assigns the static IP address;
+- `ipv4.gateway` - defines the default gateway used for external network communication;
+- `ipv4.dns` - specifies the DNS server.
+
+Example configuration:
+
+```bash
+sudo nmcli connection modify eth0 \
+ipv4.method manual \
+ipv4.addresses 192.168.1.137/24 \
+ipv4.gateway 192.168.1.1 \
+ipv4.dns 8.8.8.8
+```
+
+## Applying Network Configuration Changes
+
+After modifying the network configuration, the connection was restarted to apply the new settings.
+
+The network connection was restarted using:
+
+```bash
+sudo nmcli connection down <connection_name> && nmcli connection up <connection_name>
+```
+
+The `&&` operator ensures that the second command (`connection up`) is executed only after the connection has been successfully brought down.
+
+This approach prevents the network interface from remaining disabled after applying the new configuration.
+
+After restarting the connection, the new settings were verified using:
+
+```bash
+ip addr
+```
+
+The routing configuration was checked using:
+
+```bash
+ip route
+```
+
+A correct configuration should display a default route through the configured gateway:
+
+```text
+default via <gateway_address>
+```
+
+Connectivity was tested using:
+
+```bash
+ping google.com
+```
+
+A successful response confirmed that the Raspberry Pi had a functional static IP configuration and external network access.
+
+## Note
+
+When changing network parameters remotely through SSH, restarting the active connection may temporarily interrupt the SSH session. The new configuration should be verified before disconnecting from the local console or remote session.
