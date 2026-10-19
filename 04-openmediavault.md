@@ -63,3 +63,37 @@ After installing OpenMediaVault, the web administration interface was accessed u
 
 http://raspberry-pi-ip-address
 
+# Accessing NAS Storage from File Explorer
+
+After completing the OpenMediaVault configuration and creating shared folders, the NAS storage became accessible from other devices on the local network through standard network file sharing protocols.
+
+OpenMediaVault provides network services that allow users to access stored files directly from operating systems such as Windows.
+
+The NAS can be accessed from File Explorer using the Raspberry Pi network address:
+
+```text
+\\<raspberry-pi-ip-address>
+```
+
+or by using the configured hostname:
+
+```text
+\\<hostname>
+```
+
+The available shared folders are displayed as network locations and can be accessed according to the configured user permissions.
+
+This functionality allows the Raspberry Pi to behave as a traditional NAS device, providing centralized storage accessible from multiple clients on the network.
+
+## SMB Service
+
+The file sharing functionality is provided through the SMB (Server Message Block) protocol.
+
+SMB enables communication between the NAS and client devices, allowing:
+
+- browsing shared folders;
+- uploading and downloading files;
+- managing files remotely;
+- accessing storage without direct SSH access.
+
+The SMB service was configured through the OpenMediaVault web interface.
