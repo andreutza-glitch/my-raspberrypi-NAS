@@ -34,8 +34,6 @@ OpenMediaVault
 Docker Engine
         |
         ├── Immich
-        ├── PostgreSQL
-        ├── Redis
         └── Future services
 
 ```
