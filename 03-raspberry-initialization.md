@@ -35,7 +35,7 @@ For more informations follow this tutorial: https://www.raspberrypi.com/document
 
 # First Boot Configuration
 
-After the first boot, the Raspberry Pi was accessed remotely through SSH.
+After the first boot, the Raspberry Pi was accessed remotely through SSH. To identify the IP address of the Raspberry Pi I checked the recognized devices from the administration page of the home router.
 
 Connection:
 
