@@ -48,17 +48,27 @@ The platform should allow future improvements such as:
 
 ---
 
-# Selected Hardware Configuration
-
-The final hardware configuration is:
+The final hardware configuration of the self-hosted NAS platform is:
 
 | Component | Specification | Purpose |
 |---|---|---|
-| Single Board Computer | Raspberry Pi 4 Model B | Main processing unit |
-| RAM | 8 GB LPDDR4 | Running operating system and services |
-| System/Data Storage | 256 GB SSD | Storage for operating system, applications and user data |
-| Secondary Storage | 128 GB microSD card | Recovery/testing medium |
-| Enclosure | X825-C8 Metal Case | Protection, cooling and SSD integration |
+| Single Board Computer | Raspberry Pi 4 Model B | Main processing and server platform |
+| RAM | 4 GB LPDDR4 | Running operating system, Docker containers and self-hosted services |
+| Primary Storage | 512 GB SSD | Application data, databases, container storage and user files |
+| System Storage | microSD card | Operating system installation and system recovery |
+| Storage Interface | USB-to-SATA adapter | Connecting the SSD to the Raspberry Pi |
+
+The selected configuration is designed as a low-power personal server capable of hosting self-managed services while providing practical experience with Linux administration, storage management, containerization and network services.
+
+<img width="1280" height="1280" alt="image" src="https://github.com/user-attachments/assets/91efb0cb-afcc-431a-bacd-cf83d773eeec" />
+
+<img width="2000" height="2000" alt="image" src="https://github.com/user-attachments/assets/1d2ad699-7349-46ef-9174-fc08471ca712" />
+
+<img width="3025" height="3025" alt="image" src="https://github.com/user-attachments/assets/4f8d3146-23d7-4ede-857b-34069efa830f" />
+
+<img width="1536" height="1536" alt="image" src="https://github.com/user-attachments/assets/973292e5-6812-4964-8dc7-6c57d902974d" />
+
+
 
 ---
 
@@ -66,83 +76,94 @@ The final hardware configuration is:
 
 ## Raspberry Pi 4 Model B
 
-The Raspberry Pi 4 Model B was selected as the main computing platform for the NAS.
+The Raspberry Pi 4 Model B was selected as the main computing platform for the NAS due to its balance between performance, power consumption and flexibility.
 
-Its role is to:
-- run the operating system;
-- manage storage devices;
-- provide network services;
-- host self-managed applications.
+Its main responsibilities are:
+
+- running the server operating system;
+- managing storage devices;
+- hosting Docker-based applications;
+- providing network-accessible services;
+- managing remote access through secure networking solutions.
 
 The main reasons for selecting this platform are:
 
-- low energy consumption;
+- low power consumption compared to traditional servers;
 - compact size;
 - silent operation;
-- large community support;
-- compatibility with Linux-based operating systems.
+- extensive Linux and open-source ecosystem support;
+- compatibility with ARM64-based operating systems and container workloads.
 
-Although it has lower performance compared to traditional x86 servers, its capabilities are sufficient for a personal NAS focused on file storage, backups and lightweight services.
-
----
-
-## Memory - 8 GB RAM
-
-The selected Raspberry Pi configuration includes 8 GB of RAM.
-
-Additional memory provides more flexibility for running multiple services simultaneously.
-
-The available RAM can support workloads such as:
-
-- file sharing services;
-- Docker containers;
-- monitoring applications;
-- web-based management interfaces.
+Although the Raspberry Pi 4 provides lower computational performance compared to traditional x86 servers, its resources are sufficient for the intended workloads, including personal file storage, photo management, backups and lightweight self-hosted applications.
 
 ---
 
-## SSD Storage - 256 GB
+## Memory - 4 GB RAM
 
-The project uses SSD storage instead of relying exclusively on a microSD card.
+The selected Raspberry Pi configuration includes 4 GB of RAM, providing sufficient capacity for running multiple services simultaneously.
+
+The available memory supports workloads such as:
+
+- OpenMediaVault system management;
+- Docker container execution;
+- Immich photo management platform;
+- database services;
+- future monitoring and self-hosted applications.
+
+The additional memory capacity improves system stability when multiple services are running concurrently.
+
+---
+
+## SSD Storage - 512 GB
+
+The NAS uses a 512 GB SSD as the primary data storage device instead of relying exclusively on a microSD card.
+
+The SSD is connected to the Raspberry Pi through a USB-to-SATA adapter.
 
 The SSD provides:
 
 - higher read/write performance;
-- better reliability for frequent access;
+- improved reliability compared to microSD storage for frequent write operations;
 - lower latency;
-- improved experience when running applications.
+- better support for application data and database workloads.
 
-The SSD will be used for:
-- operating system installation;
-- application data;
-- frequently accessed files.
+The SSD is used for:
 
----
+- Docker storage;
+- container configuration files;
+- persistent application data;
+- Immich photo library;
+- database storage.
 
-## MicroSD Card - 128 GB
-
-The microSD card is included as an additional storage medium.
-
-Possible uses:
-
-- system recovery;
-- testing different operating systems;
-- backup installation media.
-
-The final decision regarding boot configuration will be made during the operating system installation phase.
+Separating application data and user files from the microSD card improves system reliability and reduces storage wear on the operating system medium.
 
 ---
 
-## X825-C8 Metal Case
+## MicroSD Card
 
-The X825-C8 enclosure provides:
+The microSD card is used as the system storage medium.
 
-- physical protection for the Raspberry Pi;
-- SSD mounting support;
-- improved thermal management;
-- a compact final assembly.
+Its main purposes are:
 
-The enclosure helps transform the individual components into a dedicated server appliance suitable for continuous operation.
+- hosting the operating system;
+- enabling system recovery or reinstallation;
+- providing a simple and replaceable boot medium.
+
+User data and application workloads are stored on the SSD in order to improve reliability and simplify backup procedures.
+
+---
+
+## USB-to-SATA Adapter
+
+The USB-to-SATA adapter provides the connection between the Raspberry Pi and the SSD storage device.
+
+Its role is to:
+
+- enable external SSD connectivity;
+- provide higher-speed storage compared to microSD;
+- allow the Raspberry Pi to use SSD storage for persistent data.
+
+Using an external SSD connected through USB allows the system to maintain a compact and low-power design while improving storage performance.
 
 ---
 
@@ -151,26 +172,44 @@ The enclosure helps transform the individual components into a dedicated server 
 ## Traditional Desktop PC
 
 Advantages:
-- higher processing power;
-- more storage expansion options;
-- support for virtualization.
+
+- higher processing capability;
+- support for larger storage configurations;
+- compatibility with virtualization platforms.
 
 Disadvantages:
-- higher power consumption;
-- larger physical size;
-- increased noise.
+
+- increased power consumption;
+- larger physical footprint;
+- higher noise levels;
+- unnecessary performance for the intended workload.
+
+---
 
 ## Mini PC
 
 Advantages:
-- better performance than Raspberry Pi;
+
+- higher performance compared to Raspberry Pi;
 - low power consumption;
-- x86 compatibility.
+- native x86 compatibility;
+- better support for demanding applications.
 
 Disadvantages:
-- higher cost;
-- less compact compared to a Raspberry Pi solution.
 
-## Final Decision
+- higher acquisition cost;
+- less emphasis on embedded and low-power experimentation.
 
-The Raspberry Pi 4 platform was selected because the primary goal of this project is not maximum performance, but creating a low-power personal NAS while gaining practical experience with Linux server administration and self-hosted services.
+---
+
+# Final Decision
+
+The Raspberry Pi 4 Model B platform was selected because the objective of this project is not to maximize computational performance, but to build an efficient and reliable personal NAS while developing practical knowledge in:
+
+- Linux server administration;
+- storage management;
+- Docker containerization;
+- self-hosted applications;
+- secure remote access.
+
+The final configuration provides sufficient resources for current services while maintaining low energy consumption, compact size and flexibility for future expansion.
