@@ -21,9 +21,8 @@ Instead of focusing only on the final setup, this repository documents the desig
 ## Planned features
 
 - SSH remote management
-- Samba file sharing
+- Openmediavault
 - Docker
-- Portainer
 - Immich
 - Jellyfin
 - Automatic backups
